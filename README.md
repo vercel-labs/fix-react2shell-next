@@ -1,6 +1,6 @@
 # fix-react2shell-next
 
-![fix-react2shell-next](./cli.png)
+![fix-react2shell-next](./cli.gif)
 
 One command to fix **[CVE-2025-66478](https://nextjs.org/blog/CVE-2025-66478)** (React 2 Shell RCE) in your Next.js / React RSC app.
 
