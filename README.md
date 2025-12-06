@@ -101,8 +101,7 @@ npx fix-react2shell-next --json
 $ pnpm install
 
 ✅ Patches applied!
-   Please verify the changes and test your app before deploying.
-   Remember to commit the updated package.json and lockfile.
+   Remember to test your app and commit the changes.
 ```
 
 ## Monorepo Support
@@ -118,8 +117,8 @@ Works with npm, yarn, pnpm, and bun workspaces.
 ## References
 
 - [GitHub Advisory GHSA-9qr9-h5gf-34mp](https://github.com/advisories/GHSA-9qr9-h5gf-34mp)
-- [Next.js Security Advisory](https://nextjs.org/blog/cve-2025-29927)
-- [React Security Fix](https://github.com/facebook/react/releases)
+- [Next.js Security Advisory](https://nextjs.org/blog/CVE-2025-66478)
+- [React Security Advisory](https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components)
 
 ## License
 
