@@ -239,11 +239,11 @@ describe('computeMinimalFixes', () => {
       assert.strictEqual(fixes[0].fixes[0].patched, '15.6.0-canary.59');
     });
 
-    it('should select 16.1.0-canary.17 for 16.x canaries (covers all 3 CVEs)', () => {
+    it('should select 16.1.0-canary.18 for 16.x canaries (covers all 3 CVEs)', () => {
       // 16.x canary patch versions:
       // - CVE-2025-66478: 16.1.0-canary.12
-      // - CVE-2025-55184: 16.1.0-canary.17
-      // - CVE-2025-55183: 16.1.0-canary.17
+      // - CVE-2025-55184: 16.1.0-canary.18
+      // - CVE-2025-55183: 16.1.0-canary.18
 
       const analysisResults = [{
         path: '/test/package.json',
@@ -253,8 +253,8 @@ describe('computeMinimalFixes', () => {
           current: '16.1.0-canary.0',
           cves: [
             { id: 'CVE-2025-66478', severity: 'critical', patchedVersion: '16.1.0-canary.12' },
-            { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '16.1.0-canary.17' },
-            { id: 'CVE-2025-55183', severity: 'medium', patchedVersion: '16.1.0-canary.17' },
+            { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '16.1.0-canary.18' },
+            { id: 'CVE-2025-55183', severity: 'medium', patchedVersion: '16.1.0-canary.18' },
           ],
           inDeps: true,
           inDevDeps: false,
@@ -262,7 +262,7 @@ describe('computeMinimalFixes', () => {
       }];
 
       const fixes = computeMinimalFixes(analysisResults);
-      assert.strictEqual(fixes[0].fixes[0].patched, '16.1.0-canary.17');
+      assert.strictEqual(fixes[0].fixes[0].patched, '16.1.0-canary.18');
     });
   });
 
@@ -596,14 +596,14 @@ describe('integration: getPatchedVersion across CVEs', () => {
       assert.strictEqual(patch55183?.recommended, '15.6.0-canary.59');
     });
 
-    it('should recommend 16.1.0-canary.17 for 16.x canaries', () => {
+    it('should recommend 16.1.0-canary.18 for 16.x canaries', () => {
       const patch66478 = cve66478.getPatchedVersion('next', '16.1.0-canary.0');
       const patch55184 = cve55184.getPatchedVersion('next', '16.1.0-canary.0');
       const patch55183 = cve55183.getPatchedVersion('next', '16.1.0-canary.0');
 
       assert.strictEqual(patch66478?.recommended, '16.1.0-canary.12');
-      assert.strictEqual(patch55184?.recommended, '16.1.0-canary.17');
-      assert.strictEqual(patch55183?.recommended, '16.1.0-canary.17');
+      assert.strictEqual(patch55184?.recommended, '16.1.0-canary.18');
+      assert.strictEqual(patch55183?.recommended, '16.1.0-canary.18');
     });
   });
 });
