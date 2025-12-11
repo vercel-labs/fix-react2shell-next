@@ -1,5 +1,11 @@
 # fix-react2shell-next
 
+## 1.1.0
+
+### Minor Changes
+
+- 41aacb1: Adds detection and patching for two additional CVEs alongside the original react2shell vulnerability
+
 ## 1.0.18
 
 ### Patch Changes
