@@ -1,5 +1,11 @@
 # fix-react2shell-next
 
+## 1.1.1
+
+### Patch Changes
+
+- ae1b160: Updates 16.x canary safe version to canary.18
+
 ## 1.1.0
 
 ### Minor Changes
