@@ -1,5 +1,11 @@
 # fix-react2shell-next
 
+## 1.1.3
+
+### Patch Changes
+
+- fd32957: support lockfile only installation
+
 ## 1.1.2
 
 ### Patch Changes
