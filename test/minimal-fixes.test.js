@@ -10,8 +10,9 @@
  * - CVE-2025-66478 (React2Shell): patched in 15.3.6
  * - CVE-2025-55184 (DoS): patched in 15.3.7
  * - CVE-2025-55183 (Source Code Exposure): patched in 15.3.7
+ * - CVE-2025-67779 (DoS Incomplete Fix): patched in 15.3.8
  *
- * The tool should recommend 15.3.7 (the highest), not 15.3.6.
+ * The tool should recommend 15.3.8 (the highest), not 15.3.6.
  */
 
 const { describe, it } = require('node:test');
@@ -20,15 +21,17 @@ const { computeMinimalFixes } = require('../lib/index');
 const cve66478 = require('../lib/vulnerabilities/cve-2025-66478');
 const cve55184 = require('../lib/vulnerabilities/cve-2025-55184');
 const cve55183 = require('../lib/vulnerabilities/cve-2025-55183');
+const cve67779 = require('../lib/vulnerabilities/cve-2025-67779');
 
 describe('computeMinimalFixes', () => {
   describe('selects highest patched version across all CVEs', () => {
-    it('should select 15.0.6 for Next.js 15.0.x (covers all 3 CVEs)', () => {
+    it('should select 15.0.7 for Next.js 15.0.x (covers all 4 CVEs)', () => {
       // 15.0.x patch versions:
       // - CVE-2025-66478: 15.0.5
       // - CVE-2025-55184: 15.0.6
       // - CVE-2025-55183: 15.0.6
-      // Expected: 15.0.6 (highest)
+      // - CVE-2025-67779: 15.0.7
+      // Expected: 15.0.7 (highest)
 
       const analysisResults = [{
         path: '/test/package.json',
@@ -40,6 +43,7 @@ describe('computeMinimalFixes', () => {
             { id: 'CVE-2025-66478', severity: 'critical', patchedVersion: '15.0.5' },
             { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '15.0.6' },
             { id: 'CVE-2025-55183', severity: 'medium', patchedVersion: '15.0.6' },
+            { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '15.0.7' },
           ],
           inDeps: true,
           inDevDeps: false,
@@ -51,16 +55,17 @@ describe('computeMinimalFixes', () => {
       assert.strictEqual(fixes.length, 1);
       assert.strictEqual(fixes[0].fixes.length, 1);
       assert.strictEqual(fixes[0].fixes[0].package, 'next');
-      assert.strictEqual(fixes[0].fixes[0].patched, '15.0.6');
-      assert.deepStrictEqual(fixes[0].fixes[0].cves, ['CVE-2025-66478', 'CVE-2025-55184', 'CVE-2025-55183']);
+      assert.strictEqual(fixes[0].fixes[0].patched, '15.0.7');
+      assert.deepStrictEqual(fixes[0].fixes[0].cves, ['CVE-2025-66478', 'CVE-2025-55184', 'CVE-2025-55183', 'CVE-2025-67779']);
     });
 
-    it('should select 15.1.10 for Next.js 15.1.x (covers all 3 CVEs)', () => {
+    it('should select 15.1.11 for Next.js 15.1.x (covers all 4 CVEs)', () => {
       // 15.1.x patch versions:
       // - CVE-2025-66478: 15.1.9
       // - CVE-2025-55184: 15.1.10
       // - CVE-2025-55183: 15.1.10
-      // Expected: 15.1.10 (highest)
+      // - CVE-2025-67779: 15.1.11
+      // Expected: 15.1.11 (highest)
 
       const analysisResults = [{
         path: '/test/package.json',
@@ -72,6 +77,7 @@ describe('computeMinimalFixes', () => {
             { id: 'CVE-2025-66478', severity: 'critical', patchedVersion: '15.1.9' },
             { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '15.1.10' },
             { id: 'CVE-2025-55183', severity: 'medium', patchedVersion: '15.1.10' },
+            { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '15.1.11' },
           ],
           inDeps: true,
           inDevDeps: false,
@@ -80,14 +86,15 @@ describe('computeMinimalFixes', () => {
 
       const fixes = computeMinimalFixes(analysisResults);
 
-      assert.strictEqual(fixes[0].fixes[0].patched, '15.1.10');
+      assert.strictEqual(fixes[0].fixes[0].patched, '15.1.11');
     });
 
-    it('should select 15.2.7 for Next.js 15.2.x (covers all 3 CVEs)', () => {
+    it('should select 15.2.8 for Next.js 15.2.x (covers all 4 CVEs)', () => {
       // 15.2.x patch versions:
       // - CVE-2025-66478: 15.2.6
       // - CVE-2025-55184: 15.2.7
       // - CVE-2025-55183: 15.2.7
+      // - CVE-2025-67779: 15.2.8
 
       const analysisResults = [{
         path: '/test/package.json',
@@ -99,6 +106,7 @@ describe('computeMinimalFixes', () => {
             { id: 'CVE-2025-66478', severity: 'critical', patchedVersion: '15.2.6' },
             { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '15.2.7' },
             { id: 'CVE-2025-55183', severity: 'medium', patchedVersion: '15.2.7' },
+            { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '15.2.8' },
           ],
           inDeps: true,
           inDevDeps: false,
@@ -106,14 +114,15 @@ describe('computeMinimalFixes', () => {
       }];
 
       const fixes = computeMinimalFixes(analysisResults);
-      assert.strictEqual(fixes[0].fixes[0].patched, '15.2.7');
+      assert.strictEqual(fixes[0].fixes[0].patched, '15.2.8');
     });
 
-    it('should select 15.3.7 for Next.js 15.3.x (covers all 3 CVEs)', () => {
+    it('should select 15.3.8 for Next.js 15.3.x (covers all 4 CVEs)', () => {
       // 15.3.x patch versions:
       // - CVE-2025-66478: 15.3.6
       // - CVE-2025-55184: 15.3.7
       // - CVE-2025-55183: 15.3.7
+      // - CVE-2025-67779: 15.3.8
 
       const analysisResults = [{
         path: '/test/package.json',
@@ -125,6 +134,7 @@ describe('computeMinimalFixes', () => {
             { id: 'CVE-2025-66478', severity: 'critical', patchedVersion: '15.3.6' },
             { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '15.3.7' },
             { id: 'CVE-2025-55183', severity: 'medium', patchedVersion: '15.3.7' },
+            { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '15.3.8' },
           ],
           inDeps: true,
           inDevDeps: false,
@@ -132,14 +142,15 @@ describe('computeMinimalFixes', () => {
       }];
 
       const fixes = computeMinimalFixes(analysisResults);
-      assert.strictEqual(fixes[0].fixes[0].patched, '15.3.7');
+      assert.strictEqual(fixes[0].fixes[0].patched, '15.3.8');
     });
 
-    it('should select 15.4.9 for Next.js 15.4.x (covers all 3 CVEs)', () => {
+    it('should select 15.4.10 for Next.js 15.4.x (covers all 4 CVEs)', () => {
       // 15.4.x patch versions:
       // - CVE-2025-66478: 15.4.8
       // - CVE-2025-55184: 15.4.9
       // - CVE-2025-55183: 15.4.9
+      // - CVE-2025-67779: 15.4.10
 
       const analysisResults = [{
         path: '/test/package.json',
@@ -151,6 +162,7 @@ describe('computeMinimalFixes', () => {
             { id: 'CVE-2025-66478', severity: 'critical', patchedVersion: '15.4.8' },
             { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '15.4.9' },
             { id: 'CVE-2025-55183', severity: 'medium', patchedVersion: '15.4.9' },
+            { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '15.4.10' },
           ],
           inDeps: true,
           inDevDeps: false,
@@ -158,14 +170,15 @@ describe('computeMinimalFixes', () => {
       }];
 
       const fixes = computeMinimalFixes(analysisResults);
-      assert.strictEqual(fixes[0].fixes[0].patched, '15.4.9');
+      assert.strictEqual(fixes[0].fixes[0].patched, '15.4.10');
     });
 
-    it('should select 15.5.8 for Next.js 15.5.x (covers all 3 CVEs)', () => {
+    it('should select 15.5.9 for Next.js 15.5.x (covers all 4 CVEs)', () => {
       // 15.5.x patch versions:
       // - CVE-2025-66478: 15.5.7
       // - CVE-2025-55184: 15.5.8
       // - CVE-2025-55183: 15.5.8
+      // - CVE-2025-67779: 15.5.9
 
       const analysisResults = [{
         path: '/test/package.json',
@@ -177,6 +190,7 @@ describe('computeMinimalFixes', () => {
             { id: 'CVE-2025-66478', severity: 'critical', patchedVersion: '15.5.7' },
             { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '15.5.8' },
             { id: 'CVE-2025-55183', severity: 'medium', patchedVersion: '15.5.8' },
+            { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '15.5.9' },
           ],
           inDeps: true,
           inDevDeps: false,
@@ -184,14 +198,15 @@ describe('computeMinimalFixes', () => {
       }];
 
       const fixes = computeMinimalFixes(analysisResults);
-      assert.strictEqual(fixes[0].fixes[0].patched, '15.5.8');
+      assert.strictEqual(fixes[0].fixes[0].patched, '15.5.9');
     });
 
-    it('should select 16.0.9 for Next.js 16.0.x (covers all 3 CVEs)', () => {
+    it('should select 16.0.10 for Next.js 16.0.x (covers all 4 CVEs)', () => {
       // 16.0.x patch versions:
       // - CVE-2025-66478: 16.0.7
       // - CVE-2025-55184: 16.0.9
       // - CVE-2025-55183: 16.0.9
+      // - CVE-2025-67779: 16.0.10
 
       const analysisResults = [{
         path: '/test/package.json',
@@ -203,6 +218,7 @@ describe('computeMinimalFixes', () => {
             { id: 'CVE-2025-66478', severity: 'critical', patchedVersion: '16.0.7' },
             { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '16.0.9' },
             { id: 'CVE-2025-55183', severity: 'medium', patchedVersion: '16.0.9' },
+            { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '16.0.10' },
           ],
           inDeps: true,
           inDevDeps: false,
@@ -210,14 +226,15 @@ describe('computeMinimalFixes', () => {
       }];
 
       const fixes = computeMinimalFixes(analysisResults);
-      assert.strictEqual(fixes[0].fixes[0].patched, '16.0.9');
+      assert.strictEqual(fixes[0].fixes[0].patched, '16.0.10');
     });
 
-    it('should select 15.6.0-canary.59 for 15.x canaries (covers all 3 CVEs)', () => {
+    it('should select 15.6.0-canary.60 for 15.x canaries (covers all 4 CVEs)', () => {
       // 15.x canary patch versions:
       // - CVE-2025-66478: 15.6.0-canary.58
       // - CVE-2025-55184: 15.6.0-canary.59
       // - CVE-2025-55183: 15.6.0-canary.59
+      // - CVE-2025-67779: 15.6.0-canary.60
 
       const analysisResults = [{
         path: '/test/package.json',
@@ -229,6 +246,7 @@ describe('computeMinimalFixes', () => {
             { id: 'CVE-2025-66478', severity: 'critical', patchedVersion: '15.6.0-canary.58' },
             { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '15.6.0-canary.59' },
             { id: 'CVE-2025-55183', severity: 'medium', patchedVersion: '15.6.0-canary.59' },
+            { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '15.6.0-canary.60' },
           ],
           inDeps: true,
           inDevDeps: false,
@@ -236,14 +254,15 @@ describe('computeMinimalFixes', () => {
       }];
 
       const fixes = computeMinimalFixes(analysisResults);
-      assert.strictEqual(fixes[0].fixes[0].patched, '15.6.0-canary.59');
+      assert.strictEqual(fixes[0].fixes[0].patched, '15.6.0-canary.60');
     });
 
-    it('should select 16.1.0-canary.18 for 16.x canaries (covers all 3 CVEs)', () => {
+    it('should select 16.1.0-canary.19 for 16.x canaries (covers all 4 CVEs)', () => {
       // 16.x canary patch versions:
       // - CVE-2025-66478: 16.1.0-canary.12
       // - CVE-2025-55184: 16.1.0-canary.18
       // - CVE-2025-55183: 16.1.0-canary.18
+      // - CVE-2025-67779: 16.1.0-canary.19
 
       const analysisResults = [{
         path: '/test/package.json',
@@ -255,6 +274,7 @@ describe('computeMinimalFixes', () => {
             { id: 'CVE-2025-66478', severity: 'critical', patchedVersion: '16.1.0-canary.12' },
             { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '16.1.0-canary.18' },
             { id: 'CVE-2025-55183', severity: 'medium', patchedVersion: '16.1.0-canary.18' },
+            { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '16.1.0-canary.19' },
           ],
           inDeps: true,
           inDevDeps: false,
@@ -262,13 +282,13 @@ describe('computeMinimalFixes', () => {
       }];
 
       const fixes = computeMinimalFixes(analysisResults);
-      assert.strictEqual(fixes[0].fixes[0].patched, '16.1.0-canary.18');
+      assert.strictEqual(fixes[0].fixes[0].patched, '16.1.0-canary.19');
     });
   });
 
   describe('handles versions only affected by some CVEs', () => {
-    it('should select 14.2.34 for Next.js 14.x (only DoS, not Source Code Exposure)', () => {
-      // 14.x is only vulnerable to CVE-2025-66478 (canaries only) and CVE-2025-55184 (DoS)
+    it('should select 14.2.35 for Next.js 14.x (DoS CVEs, not Source Code Exposure)', () => {
+      // 14.x is vulnerable to CVE-2025-66478 (canaries only), CVE-2025-55184, and CVE-2025-67779
       // NOT vulnerable to CVE-2025-55183 (Source Code Exposure)
 
       const analysisResults = [{
@@ -279,6 +299,7 @@ describe('computeMinimalFixes', () => {
           current: '14.2.0',
           cves: [
             { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '14.2.34' },
+            { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '14.2.35' },
           ],
           inDeps: true,
           inDevDeps: false,
@@ -287,12 +308,12 @@ describe('computeMinimalFixes', () => {
 
       const fixes = computeMinimalFixes(analysisResults);
 
-      assert.strictEqual(fixes[0].fixes[0].patched, '14.2.34');
-      assert.deepStrictEqual(fixes[0].fixes[0].cves, ['CVE-2025-55184']);
+      assert.strictEqual(fixes[0].fixes[0].patched, '14.2.35');
+      assert.deepStrictEqual(fixes[0].fixes[0].cves, ['CVE-2025-55184', 'CVE-2025-67779']);
     });
 
-    it('should select 14.2.34 for Next.js 13.x (only DoS)', () => {
-      // 13.x (>= 13.3) is only vulnerable to CVE-2025-55184 (DoS)
+    it('should select 14.2.35 for Next.js 13.x (DoS CVEs only)', () => {
+      // 13.x (>= 13.3) is vulnerable to CVE-2025-55184 and CVE-2025-67779
       // NOT vulnerable to CVE-2025-66478 or CVE-2025-55183
 
       const analysisResults = [{
@@ -303,6 +324,7 @@ describe('computeMinimalFixes', () => {
           current: '13.4.0',
           cves: [
             { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '14.2.34' },
+            { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '14.2.35' },
           ],
           inDeps: true,
           inDevDeps: false,
@@ -311,7 +333,7 @@ describe('computeMinimalFixes', () => {
 
       const fixes = computeMinimalFixes(analysisResults);
 
-      assert.strictEqual(fixes[0].fixes[0].patched, '14.2.34');
+      assert.strictEqual(fixes[0].fixes[0].patched, '14.2.35');
     });
   });
 
@@ -408,6 +430,7 @@ describe('computeMinimalFixes', () => {
               { id: 'CVE-2025-66478', severity: 'critical', patchedVersion: '15.3.6' },
               { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '15.3.7' },
               { id: 'CVE-2025-55183', severity: 'medium', patchedVersion: '15.3.7' },
+              { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '15.3.8' },
             ],
             inDeps: true,
             inDevDeps: false,
@@ -434,7 +457,7 @@ describe('computeMinimalFixes', () => {
       const nextFix = fixes[0].fixes.find(f => f.package === 'next');
       const rscFix = fixes[0].fixes.find(f => f.package === 'react-server-dom-webpack');
 
-      assert.strictEqual(nextFix.patched, '15.3.7');
+      assert.strictEqual(nextFix.patched, '15.3.8');
       assert.strictEqual(rscFix.patched, '19.1.3');
     });
   });
@@ -451,6 +474,7 @@ describe('computeMinimalFixes', () => {
             cves: [
               { id: 'CVE-2025-66478', severity: 'critical', patchedVersion: '15.3.6' },
               { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '15.3.7' },
+              { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '15.3.8' },
             ],
             inDeps: true,
             inDevDeps: false,
@@ -465,6 +489,7 @@ describe('computeMinimalFixes', () => {
             cves: [
               { id: 'CVE-2025-66478', severity: 'critical', patchedVersion: '16.0.7' },
               { id: 'CVE-2025-55184', severity: 'high', patchedVersion: '16.0.9' },
+              { id: 'CVE-2025-67779', severity: 'high', patchedVersion: '16.0.10' },
             ],
             inDeps: true,
             inDevDeps: false,
@@ -479,8 +504,8 @@ describe('computeMinimalFixes', () => {
       const app1Fix = fixes.find(f => f.path === '/app1/package.json');
       const app2Fix = fixes.find(f => f.path === '/app2/package.json');
 
-      assert.strictEqual(app1Fix.fixes[0].patched, '15.3.7');
-      assert.strictEqual(app2Fix.fixes[0].patched, '16.0.9');
+      assert.strictEqual(app1Fix.fixes[0].patched, '15.3.8');
+      assert.strictEqual(app2Fix.fixes[0].patched, '16.0.10');
     });
   });
 
@@ -542,19 +567,19 @@ describe('integration: getPatchedVersion across CVEs', () => {
   describe('verifies each CVE module returns correct patch versions', () => {
     const testCases = [
       // Next.js 15.0.x
-      { version: '15.0.0', expected66478: '15.0.5', expected55184: '15.0.6', expected55183: '15.0.6', expectedFinal: '15.0.6' },
+      { version: '15.0.0', expected66478: '15.0.5', expected55184: '15.0.6', expected55183: '15.0.6', expected67779: '15.0.7', expectedFinal: '15.0.7' },
       // Next.js 15.1.x
-      { version: '15.1.0', expected66478: '15.1.9', expected55184: '15.1.10', expected55183: '15.1.10', expectedFinal: '15.1.10' },
+      { version: '15.1.0', expected66478: '15.1.9', expected55184: '15.1.10', expected55183: '15.1.10', expected67779: '15.1.11', expectedFinal: '15.1.11' },
       // Next.js 15.2.x
-      { version: '15.2.0', expected66478: '15.2.6', expected55184: '15.2.7', expected55183: '15.2.7', expectedFinal: '15.2.7' },
+      { version: '15.2.0', expected66478: '15.2.6', expected55184: '15.2.7', expected55183: '15.2.7', expected67779: '15.2.8', expectedFinal: '15.2.8' },
       // Next.js 15.3.x
-      { version: '15.3.0', expected66478: '15.3.6', expected55184: '15.3.7', expected55183: '15.3.7', expectedFinal: '15.3.7' },
+      { version: '15.3.0', expected66478: '15.3.6', expected55184: '15.3.7', expected55183: '15.3.7', expected67779: '15.3.8', expectedFinal: '15.3.8' },
       // Next.js 15.4.x
-      { version: '15.4.0', expected66478: '15.4.8', expected55184: '15.4.9', expected55183: '15.4.9', expectedFinal: '15.4.9' },
+      { version: '15.4.0', expected66478: '15.4.8', expected55184: '15.4.9', expected55183: '15.4.9', expected67779: '15.4.10', expectedFinal: '15.4.10' },
       // Next.js 15.5.x
-      { version: '15.5.0', expected66478: '15.5.7', expected55184: '15.5.8', expected55183: '15.5.8', expectedFinal: '15.5.8' },
+      { version: '15.5.0', expected66478: '15.5.7', expected55184: '15.5.8', expected55183: '15.5.8', expected67779: '15.5.9', expectedFinal: '15.5.9' },
       // Next.js 16.0.x
-      { version: '16.0.0', expected66478: '16.0.7', expected55184: '16.0.9', expected55183: '16.0.9', expectedFinal: '16.0.9' },
+      { version: '16.0.0', expected66478: '16.0.7', expected55184: '16.0.9', expected55183: '16.0.9', expected67779: '16.0.10', expectedFinal: '16.0.10' },
     ];
 
     for (const tc of testCases) {
@@ -562,13 +587,15 @@ describe('integration: getPatchedVersion across CVEs', () => {
         const patch66478 = cve66478.getPatchedVersion('next', tc.version);
         const patch55184 = cve55184.getPatchedVersion('next', tc.version);
         const patch55183 = cve55183.getPatchedVersion('next', tc.version);
+        const patch67779 = cve67779.getPatchedVersion('next', tc.version);
 
         assert.strictEqual(patch66478?.recommended, tc.expected66478, `CVE-2025-66478 patch mismatch`);
         assert.strictEqual(patch55184?.recommended, tc.expected55184, `CVE-2025-55184 patch mismatch`);
         assert.strictEqual(patch55183?.recommended, tc.expected55183, `CVE-2025-55183 patch mismatch`);
+        assert.strictEqual(patch67779?.recommended, tc.expected67779, `CVE-2025-67779 patch mismatch`);
 
         // The final recommendation should be the highest
-        const patches = [patch66478?.recommended, patch55184?.recommended, patch55183?.recommended].filter(Boolean);
+        const patches = [patch66478?.recommended, patch55184?.recommended, patch55183?.recommended, patch67779?.recommended].filter(Boolean);
         const highest = patches.sort((a, b) => {
           const partsA = a.split('.').map(Number);
           const partsB = b.split('.').map(Number);
@@ -586,24 +613,28 @@ describe('integration: getPatchedVersion across CVEs', () => {
   });
 
   describe('canary version patches', () => {
-    it('should recommend 15.6.0-canary.59 for 15.x canaries', () => {
+    it('should recommend 15.6.0-canary.60 for 15.x canaries', () => {
       const patch66478 = cve66478.getPatchedVersion('next', '15.6.0-canary.0');
       const patch55184 = cve55184.getPatchedVersion('next', '15.6.0-canary.0');
       const patch55183 = cve55183.getPatchedVersion('next', '15.6.0-canary.0');
+      const patch67779 = cve67779.getPatchedVersion('next', '15.6.0-canary.0');
 
       assert.strictEqual(patch66478?.recommended, '15.6.0-canary.58');
       assert.strictEqual(patch55184?.recommended, '15.6.0-canary.59');
       assert.strictEqual(patch55183?.recommended, '15.6.0-canary.59');
+      assert.strictEqual(patch67779?.recommended, '15.6.0-canary.60');
     });
 
-    it('should recommend 16.1.0-canary.18 for 16.x canaries', () => {
+    it('should recommend 16.1.0-canary.19 for 16.x canaries', () => {
       const patch66478 = cve66478.getPatchedVersion('next', '16.1.0-canary.0');
       const patch55184 = cve55184.getPatchedVersion('next', '16.1.0-canary.0');
       const patch55183 = cve55183.getPatchedVersion('next', '16.1.0-canary.0');
+      const patch67779 = cve67779.getPatchedVersion('next', '16.1.0-canary.0');
 
       assert.strictEqual(patch66478?.recommended, '16.1.0-canary.12');
       assert.strictEqual(patch55184?.recommended, '16.1.0-canary.18');
       assert.strictEqual(patch55183?.recommended, '16.1.0-canary.18');
+      assert.strictEqual(patch67779?.recommended, '16.1.0-canary.19');
     });
   });
 });
