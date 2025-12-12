@@ -1,0 +1,26 @@
+{
+    // استخدم IntelliSense لمعرفة الخصائص الممكنة.
+    // مرر الماوس لرؤية أوصاف الخصائص الموجودة.
+    // لمزيد من المعلومات، يرجى زيارة: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    allowedModels
+    
+
+    .01ff8ae71b4419903b65c60fb2dc9d34cf8bb6e06d03bde112ef38f7a34d6904c424ba66bea5cdcf12890230bf39f9580473140ed9c946fef328b6e5238a345a
+
+    .01ff8ae71b4419903b65c60fb2dc9d34cf8bb6e06d03bde112ef38f7a34d6904c424ba66bea5cdcf12890230bf39f9580473140ed9c946fef328b6e5238a345a
+    
+
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "إطلاق البرنامج",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${file}"
+        }
+    ]
+}
