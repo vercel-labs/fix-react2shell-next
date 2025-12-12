@@ -1,5 +1,11 @@
 # fix-react2shell-next
 
+## 1.1.4
+
+### Patch Changes
+
+- eb6bb63: lockfile
+
 ## 1.1.3
 
 ### Patch Changes
