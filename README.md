@@ -38,7 +38,7 @@ Deterministic version bumps per the official advisories.
 | 16.x canaries | 16.1.0-canary.12 |
 | 14.3.0-canary.77+ | Downgrade to 14.3.0-canary.76 or upgrade to 15.0.5 |
 
-### React Core Packages
+### React Packages (CVE-2025-55182)
 
 | Current Version | Patched Version |
 |-----------------|-----------------|
@@ -46,15 +46,7 @@ Deterministic version bumps per the official advisories.
 | 19.1.0, 19.1.1 | 19.1.2 |
 | 19.2.0 | 19.2.1 |
 
-*Applies to: `react`, `react-dom`*
-
-### React RSC Packages
-
-| Current Version | Patched Version |
-|-----------------|-----------------|
-| 19.0.0 | 19.0.1 |
-| 19.1.0, 19.1.1 | 19.1.2 |
-| 19.2.0 | 19.2.1 |
+*Applies to: `react`, `react-dom`, `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`*
 
 ## Usage
 
