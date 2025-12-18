@@ -2,7 +2,7 @@
 
 ![fix-react2shell-next](https://raw.githubusercontent.com/vercel-labs/fix-react2shell-next/main/cli.gif)
 
-One command to fix **[CVE-2025-66478](https://nextjs.org/blog/CVE-2025-66478)** (React 2 Shell RCE) in your Next.js / React RSC app.
+One command to fix multiple React/Next.js security vulnerabilities in your Next.js / React RSC app.
 
 ```bash
 npx fix-react2shell-next
@@ -37,6 +37,16 @@ Deterministic version bumps per the official advisories.
 | 15.x canaries | 15.6.0-canary.58 |
 | 16.x canaries | 16.1.0-canary.12 |
 | 14.3.0-canary.77+ | Downgrade to 14.3.0-canary.76 or upgrade to 15.0.5 |
+
+### React Core Packages
+
+| Current Version | Patched Version |
+|-----------------|-----------------|
+| 19.0.0 | 19.0.1 |
+| 19.1.0, 19.1.1 | 19.1.2 |
+| 19.2.0 | 19.2.1 |
+
+*Applies to: `react`, `react-dom`*
 
 ### React RSC Packages
 

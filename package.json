@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/vercel-labs/fix-react2shell-next.git"
   },
-  "description": "Fix the React 2 Shell vulnerability (CVE-2025-66478) in Next.js apps with one command",
+  "description": "Fix multiple React/Next.js security vulnerabilities in Next.js apps with one command",
   "main": "index.js",
   "bin": {
     "fix-react2shell-next": "./bin/cli.js"
