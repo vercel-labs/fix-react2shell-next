@@ -38,15 +38,46 @@ Deterministic version bumps per the official advisories.
 | 16.x canaries | 16.1.0-canary.12 |
 | 14.3.0-canary.77+ | Downgrade to 14.3.0-canary.76 or upgrade to 15.0.5 |
 
-### React Packages (CVE-2025-55182)
+### React Server Components (CVE-2025-55182)
 
 | Current Version | Patched Version |
 |-----------------|-----------------|
-| 19.0.0 | 19.0.1 |
-| 19.1.0, 19.1.1 | 19.1.2 |
-| 19.2.0 | 19.2.1 |
+| 19.0.0 | 19.0.2 |
+| 19.1.0, 19.1.1 | 19.1.3 |
+| 19.2.0 | 19.2.2 |
 
 *Applies to: `react`, `react-dom`, `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`*
+
+### React Server Components (CVE-2025-55184)
+
+| Current Version | Patched Version |
+|-----------------|-----------------|
+| 19.0.0, 19.0.1 | 19.0.2 |
+| 19.1.0, 19.1.1, 19.1.2 | 19.1.3 |
+| 19.2.0, 19.2.1 | 19.2.2 |
+
+*Applies to: `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`*
+
+### React Server Components (CVE-2025-55183)
+
+| Current Version | Patched Version |
+|-----------------|-----------------|
+| 19.0.0, 19.0.1 | 19.0.2 |
+| 19.1.0, 19.1.1, 19.1.2 | 19.1.3 |
+| 19.2.0, 19.2.1 | 19.2.2 |
+
+*Applies to: `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`*
+
+### React Server Components (CVE-2025-67779)
+
+| Current Version | Patched Version |
+|-----------------|-----------------|
+| 19.0.2 | 19.0.3 |
+| 19.1.3 | 19.1.4 |
+| 19.2.2 | 19.2.3 |
+
+*Applies to: `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`*
+*Note: Incomplete fix follow-up for CVE-2025-55184*
 
 ## Usage
 
